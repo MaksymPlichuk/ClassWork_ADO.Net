@@ -1,0 +1,24 @@
+ADO.Net Conspect
+
+
+------------------
+01_
+
+Батьківський класс = Базовий класс
+
+ExecuteNonQuery() - Скільки рядків задіяно 
+
+ExecuteReader() - select (Таблиця)
+
+ExecuteScalar() - коли поверт 1 значення
+
+
+
+------------------
+02_CRUDInterface
+
+
+
+`
+
+
