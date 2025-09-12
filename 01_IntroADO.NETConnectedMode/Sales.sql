@@ -21,15 +21,33 @@ create table Sales(
 
 ----
 select * from Sellers
+select * from Sales
 select * from Buyers
 
 select b.Name +' '+b.Surname as [Buyer],s.Price,s.SaleDate,sl.Name+' '+ sl.Surname as [Seller]
 from Sales as s join Buyers as b on s.BuyerId=b.Id
 				join Sellers as sl on s.SellerId=sl.Id
 
+select b.Name +' '+b.Surname as [Buyer],s.Price,s.SaleDate,sl.Name+' '+ sl.Surname as [Seller]
+from Sales as s join Buyers as b on s.BuyerId=b.Id
+				join Sellers as sl on s.SellerId=sl.Id
+where b.Name='Roman' and b.Surname='Shevchenko' and s.Price = (select Max(sl.Price) from Sales as sl 
+									join Buyers as b on sl.BuyerId=b.Id
+									where b.Name='Roman' and b.Surname='Shevchenko')
+Union all
+select b.Name +' '+b.Surname as [Buyer],s.Price,s.SaleDate,sl.Name+' '+ sl.Surname as [Seller]
+from Sales as s join Buyers as b on s.BuyerId=b.Id
+				join Sellers as sl on s.SellerId=sl.Id
+where b.Name='Roman' and b.Surname='Shevchenko' and s.Price = (select Min(sl.Price) from Sales as sl 
+									join Buyers as b on sl.BuyerId=b.Id
+									where b.Name='Roman' and b.Surname='Shevchenko')
 
-
-----
+select sl.Name+' '+ sl.Surname as [Seller],s.Price,s.SaleDate as [OldestSale],b.Name +' '+b.Surname as [Buyer]
+from Sales as s join Buyers as b on s.BuyerId=b.Id
+				join Sellers as sl on s.SellerId=sl.Id
+where sl.Name = 'Dmytro' and sl.Surname='Krutov' and s.SaleDate = (select MIN(s.SaleDate) from Sales as s 
+												join Sellers as sl on sl.Id=s.SellerId 
+												where sl.Name = 'Dmytro' and sl.Surname='Krutov')
 
 INSERT INTO Buyers (Name, Surname) VALUES (N'Ivan', N'Petrenko');
 INSERT INTO Buyers (Name, Surname) VALUES (N'Oksana', N'Sydorenko');
@@ -63,4 +81,6 @@ INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (4, 6, 2100, '2025
 INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (7, 7, 1900, '2025-03-12');
 INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (8, 8, 3100, '2025-02-18');
 INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (9, 9, 2700, '2025-01-05');
-INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (10, 10, 2500, '2024-12-01');
+INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (10, 10, 2500, '2024-12-01')
+INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (9, 9, 15000, '2023-01-08');
+INSERT INTO Sales (BuyerId, SellerId, Price, SaleDate) VALUES (8, 1, 5700, '2022-04-28');
