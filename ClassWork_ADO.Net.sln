@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01_IntroADO.NETConnectedMod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02_CRUD_Interface", "02_CRUD_Interface\02_CRUD_Interface.csproj", "{AFE6EF2D-21C6-47C6-9896-E2AF04EB0936}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_SQLInjectionDataAccessLayer", "03_SQLInjectionDataAccessLayer\03_SQLInjectionDataAccessLayer.csproj", "{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AFE6EF2D-21C6-47C6-9896-E2AF04EB0936}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE6EF2D-21C6-47C6-9896-E2AF04EB0936}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE6EF2D-21C6-47C6-9896-E2AF04EB0936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

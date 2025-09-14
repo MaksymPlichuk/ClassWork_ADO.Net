@@ -1,0 +1,394 @@
+﻿ADO.Net Conspect
+
+
+----------------------------------------------
+01_IntroADO.NETConnectedMode
+
+Батьківський класс = Базовий класс
+
+
+	Базовий класс			Клас наслідник
+
+	DbConnection
+								SqlConnection
+								OleDbConnection
+								OdbcConnection
+								OracleConnection
+	DbCommand
+								SqlCommand
+								OleDbCommand
+								OdbcCommand
+								OracleCommand
+	DbDataReader							
+								SqlDataReader
+								OleDbDataReader
+								OdbcDataReader
+								OracleDataReader
+	DbDataAdapter							
+								SqlDataAdapter
+								OleDbDataAdapter
+								OdbcDataAdapter
+								OracleDataAdapter
+								
+
+
+
+
+ //connectionString:  Property=value;Property2=value2;
+							
+								//Назва Серверу
+    string connectionString = @"Data Source = DESKTOP-1LCG8OH\SQLEXPRESS; 
+	
+			//Назва БД
+			Initial Catalog = SportShop;
+								
+			//Windows користувач чи ні
+		Integrated Security = true; 		
+		
+		
+			TrustServerCertificate=True;	";
+
+
+	SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+sqlConnection.Open();
+           Console.WriteLine("Connected success!");
+		   
+sqlConnection.Close();
+		   
+		   
+
+
+ExecuteNonQuery() - Скільки рядків задіяно (insert,update,delete)
+
+ExecuteReader() - Поверт таблицю (select)
+
+ExecuteScalar() - коли поверт 1 значення
+
+
+ int id = 2;
+string name = "Pукавиці";
+
+--Execute Reader--
+						`	//показ id
+	string cmdText = $@"select * from Products
+					where Id = {id}";
+	
+							//показ назву
+	string cmdText2 = $@"select * from Products
+					where Name = '{name}'";
+	
+SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+
+SqlDataReader reader = command.ExecuteReader();
+
+						//кількість полів
+ for (int i = 0; i < reader.FieldCount; i++) 
+            {						//назва колонки
+                Console.Write($" {reader.GetName(i),14}");
+            }
+			
+            Console.WriteLine("\n------------------");
+
+            while (reader.Read())
+            {
+              
+                for (int i = 0; i < reader.FieldCount; i++)
+                {						//назва рядка
+                    Console.Write($" {reader[i],14} ");
+                }
+                Console.WriteLine();
+            }
+
+ reader.Close();
+
+
+------------------
+02_CRUDInterface
+
+
+
+`
+
+
+ADO.Net Conspect
+
+
+------------------------------------------------------------------------------------------
+01_IntroADO.NETConnectedMode
+
+Батьківський класс = Базовий класс
+
+
+	Базовий класс			Клас наслідник
+
+	DbConnection
+								SqlConnection
+								OleDbConnection
+								OdbcConnection
+								OracleConnection
+	DbCommand
+								SqlCommand
+								OleDbCommand
+								OdbcCommand
+								OracleCommand
+	DbDataReader							
+								SqlDataReader
+								OleDbDataReader
+								OdbcDataReader
+								OracleDataReader
+	DbDataAdapter							
+								SqlDataAdapter
+								OleDbDataAdapter
+								OdbcDataAdapter
+								OracleDataAdapter
+								
+
+
+
+
+ //connectionString:  Property=value;Property2=value2;
+							
+								//Назва Серверу
+    string connectionString = @"Data Source = DESKTOP-1LCG8OH\SQLEXPRESS; 
+	
+			//Назва БД
+			Initial Catalog = SportShop;
+								
+			//Windows користувач чи ні
+		Integrated Security = true; 		
+		
+		
+			TrustServerCertificate=True;	";
+
+
+	SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+sqlConnection.Open();
+           Console.WriteLine("Connected success!");
+		   
+sqlConnection.Close();
+		   
+		   
+
+
+ExecuteNonQuery() - Скільки рядків задіяно (insert,update,delete)
+
+ExecuteReader() - Поверт таблицю (select)
+
+ExecuteScalar() - коли поверт 1 значення
+
+
+ int id = 2;
+string name = "Pукавиці";
+
+--Execute Reader--
+						`	//показ id
+	string cmdText = $@"select * from Products
+					where Id = {id}";
+	
+							//показ назву
+	string cmdText2 = $@"select * from Products
+					where Name = '{name}'";
+	
+SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+
+SqlDataReader reader = command.ExecuteReader();
+
+						//кількість полів
+ for (int i = 0; i < reader.FieldCount; i++) 
+            {						//назва колонки
+                Console.Write($" {reader.GetName(i),14}");
+            }
+			
+            Console.WriteLine("\n------------------");
+
+            while (reader.Read())
+            {
+              
+                for (int i = 0; i < reader.FieldCount; i++)
+                {						//назва рядка
+                    Console.Write($" {reader[i],14} ");
+                }
+                Console.WriteLine();
+            }
+
+ reader.Close();
+
+
+------------------------------------------------------------------------------------------
+02_CRUDInterface
+
+
+connection string - змінна інформація
+
+суть підєднаного режиму роботи з бд полягає в тому що ми на початку створ об'єкт 
+	SportShopDb передаємо connectionString і підключаємося до серверу
+
+далі виконуємо CRUD операції з бд коли бд не потрібна ми закриваємо sqlConnection
+
+суть відєднаного режиму роботи полягає в тому що 
+	ми на початку підключаємося до бд дію виконали і відключаємося від бд
+
+
+Щоб реалізувати sqlConnection в main використовуємо using а до класу 
+	підключаємо IDisposeable
+
+
+суть CRUD інтерфейсу працювати з існуючими данними
+
+
+ class SportShopDb: IDisposable
+    {
+        private SqlConnection sqlConnection;
+      
+        public SportShopDb(string connectionString)
+        {
+            sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+        }
+
+
+	 public void Create_As_Insert(Product product) 
+        {
+            string cmdText = $@"INSERT INTO Products
+                              VALUES ('{product.Name}', 
+                                      '{product.Type}',
+                                       {product.Quantity}, 
+                                       {product.Cost}, 
+                                      '{product.Producer}', 
+                                       {product.Price})";
+
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+            command.CommandTimeout = 5; // default - 30sec
+           
+            int rows = command.ExecuteNonQuery();
+            Console.WriteLine(rows + " rows affected!");
+        }
+
+	
+	public List<Product> Read_Get_All() 
+        {
+            string cmdText = $@"select * from Products";
+
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+             SqlDataReader reader = command.ExecuteReader();
+            Console.OutputEncoding = Encoding.UTF8;
+
+            List<Product> products = new List<Product>();   
+         
+            while (reader.Read())
+            {
+                products.Add(
+                    new Product()
+                    {
+                        Id = (int)reader[0],
+                        Name = (string)reader[1],
+                        Type = (string)reader[2],
+                        Quantity = (int)reader[3],
+                        Cost = (int)reader[4],
+                        Producer = (string)reader[5],
+                        Price = (int)reader[6]
+                    });
+            }
+            reader.Close();
+            return products;    
+        }
+
+
+
+	public void Delete(int id) 
+        {
+            string cmdText = $@"delete Products where Id = {id}";
+
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);       
+            int rows = command.ExecuteNonQuery();
+			
+			Console.WriteLine(rows + " rows Affected")
+        }
+
+        public void Dispose()
+        {
+            sqlConnection.Close();  
+        }
+	}
+
+------------------------------------------------------------------------------------------
+03_SQLInjection. Data Access Layer
+
+
+Чистий ADO.NET -> використ sql команди напряму
+
+
+
+'{Name}' - уразливий до SQL injection
+
+
+Тільки command може заборонити sql інєкції
+
+
+public List<Product> Get_By_Name(string _user_name)
+{
+	string cmdText = $@"select * from Products where Name = @name";
+	
+	SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+	command.Parameters.Add("name", System.Data.SqlDbType.NVarChar).Value = _user_name;
+	
+						назва змінної	тип данних					кому присвоїти
+	
+	
+	SqlDataReader reader = command.ExecuteReader();
+	return GetProductsByQuery(reader);
+}
+						
+
+	command.Parameters.AddWithValue("name", product.Name);
+								псевдонім		назва об'єкта
+
+
+			-самий простий-
+			
+string cmdText = $@"INSERT INTO Products
+VALUES (@name, @type, @quantity, @cost,@producer, @price)";
+
+SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+command.Parameters.AddWithValue("name", product.Name);
+command.Parameters.AddWithValue("type", product. Type);
+command.Parameters.AddWithValue("quantity", product.quantity);
+command.Parameters.AddWithValue("product", product.producer);
+
+
+
+--WPF
+
+Бібліотека призначена щоб дати класи 
+
+Solution -> Create new Project -> Class Library
+
+
+Class Library - не запускається/його призначення зберігати класи які ми будемо використовувати
+
+
+виносимо class SportShopDb і Products.cs через ЛКМ у 03_ClassLibrary
+
+
+Solution -> Manage NuGet Packages
+
+Dependencies->Add Project References -> 03_ClassLibrary
+
+
+у 03_ClassLibrary Міняємо класи на public
+
+
+dll - dynamic link library
+
+набір класів який можне використовувати в консольних і віконних додатках
+
+
+
+
+
+
