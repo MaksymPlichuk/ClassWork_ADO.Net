@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02_CRUD_Interface", "02_CRU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_SQLInjectionDataAccessLayer", "03_SQLInjectionDataAccessLayer\03_SQLInjectionDataAccessLayer.csproj", "{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_DataLibrary", "03_DataLibrary\03_DataLibrary.csproj", "{9D1CA443-43E7-487D-A08A-DCBDC9F74887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_SalesUI", "03_SalesUI\03_SalesUI.csproj", "{1A615946-400A-4A8E-8230-62044B5B29CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{870C84E7-8487-4D7E-9CF2-1E0ACA6EBEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D1CA443-43E7-487D-A08A-DCBDC9F74887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D1CA443-43E7-487D-A08A-DCBDC9F74887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D1CA443-43E7-487D-A08A-DCBDC9F74887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D1CA443-43E7-487D-A08A-DCBDC9F74887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A615946-400A-4A8E-8230-62044B5B29CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A615946-400A-4A8E-8230-62044B5B29CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A615946-400A-4A8E-8230-62044B5B29CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A615946-400A-4A8E-8230-62044B5B29CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

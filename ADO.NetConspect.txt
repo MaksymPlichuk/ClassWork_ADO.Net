@@ -389,6 +389,8 @@ dll - dynamic link library
 
 
 
+Models -> містить всі класи
 
+SportShopDb -> міст який зв'язує проект і бд
 
-
+03_CRUDInterface -> просто main

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _03_SQLInjectionDataAccessLayer
+namespace _03_DataLibrary.Models
 {
-    internal class Sale
+    public class Sale
     {
         public int Id { get; set; }
         public int BuyerID { get; set; }
