@@ -362,6 +362,32 @@ command.Parameters.AddWithValue("product", product.producer);
 
 
 
+---
+
+ private void ShowFunction(string cmdText,params SqlParameter[] parameters)
+        {
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+            if (parameters!=null)
+            {
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    command.Parameters.Add(parameters[i]);
+                }
+            }
+
+
+  SqlParameter param1 = new SqlParameter
+            {
+                ParameterName = "formatedDate",
+                SqlDbType = System.Data.SqlDbType.Date,
+                Value = formatedDate
+            };
+
+---
+
+
+
 --WPF
 
 Бібліотека призначена щоб дати класи 
@@ -375,12 +401,13 @@ Class Library - не запускається/його призначення з
 виносимо class SportShopDb і Products.cs через ЛКМ у 03_ClassLibrary
 
 
-Solution -> Manage NuGet Packages
 
+Solution -> Manage NuGet Packages
 Dependencies->Add Project References -> 03_ClassLibrary
 
 
 у 03_ClassLibrary Міняємо класи на public
+
 
 
 dll - dynamic link library
@@ -394,3 +421,118 @@ Models -> містить всі класи
 SportShopDb -> міст який зв'язує проект і бд
 
 03_CRUDInterface -> просто main
+
+
+
+ <DockPanel>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Click="Button_Click">Load Products</Button>
+        </ToolBar>
+        <DataGrid Name="dataGrid"></DataGrid>	//таблиця
+ </DockPanel>
+
+
+dataGrid.ItemsSource = db.Read_Get_All();
+
+------------------------------------------------------------------------------------------
+04_LINQ To SQL
+
+internal - класс видно тільки в проекті
+
+Назва класу який звязаний з бд і має CRUD інтерфейс МАЄ бути приставка DB
+			|  міст між C# і БД
+
+
+
+connected mode - затратний		  |  Більше навантаження на сервер / Швидші зміни
+
+disconected mode - менш затратний |
+
+
+ Add new item -> LINQ to SQL Classes
+ 
+ View - > SQL Server Object Explorer -> Add SQL Server
+ 
+ ->  далі вибираємо у БД наші таблиці і тягнемо у меню -> потім жмемо ctrl+c (Таблиця стор з SQL у C#)
+ 
+ 
+System.Data.Linq.Table<Employee>   -  перетвор таблицю з дб у таблицю в C#
+
+
+
+
+
+
+Top(5) = Take(5)
+
+
+	//предикат | функція завданняс якої є взяти по черзі кожен Product і сказати true або false
+
+static bool FilteredPredicate(Product p)	//або (p => p.CostPrice > 1000)
+        {
+            return p.CostPrice > 1000;
+        }
+
+
+			якщо true, то буде додаватися в цю колекцію
+
+var mostValue = db.Products.Where(p => p.CostPrice > 1000)		//синтаксис методу
+                .OrderByDescending(p => p.CostPrice).Take(5);
+
+
+
+
+var mostValue = (from p in db.Products
+                         where p.CostPrice > 1000
+                         orderby p.Price descending			//синтаксис запиту
+                         select p).Take(5);
+
+
+
+ foreach (var p in mostValue)
+            {
+                Console.WriteLine($"Product: {p.Id,5}. {p.Name,-15} . {p.CostPrice}$ ");
+            }
+
+
+
+
+db.Products.InsertOnSubmit(product);	//вставляє об'єкт в колекцію але не в БД
+db.SubmitChanges();		//вставляє зміни у БД
+
+
+
+
+											//бо повертається 1 елем а Функція IQueryable
+  Product pr = db.Products.Where(p => p.Id == 3).FirstOrDefault();
+  
+            Console.WriteLine($"Product with id {pr.Id}. {pr.Name}. Price = {pr.CostPrice}");
+			
+            pr.CostPrice -= 16000;
+			
+            db.SubmitChanges();		//щоб зміни перенеслись у бд
+			
+	
+	
+			
+pr.CostPrice -= 16000;	// приходить на зміну чистому ADO.NET де все відбув через
+
+cmdText = "update Table Products where id='5'"  ТА		
+								SqlCommand commad = new SqlCommand(cmdText, connectionString)  // і ТД.....
+								
+								
+щоб створити Linq to Entities треба
+
+
+VS installer -> Modify Visual Studio 2022 -> Individual Components -> sql -> 
+
+ ✅ SQL Server Data Tools		//на базі VS studio створиться Local Server					
+ ✅ SQL Server Express 2019 LocalDB
+
+	Code Tools
+ 
+ ✅ LINQ to SQL tools		//Файл який дозволив по діаграмі(ctrl+c) створити БД				
+								
+								
+								
+								
