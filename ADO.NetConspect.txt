@@ -1,4 +1,13 @@
-﻿ADO.Net Conspect
+﻿  /$$$$$$  /$$$$$$$   /$$$$$$     /$$   /$$ /$$$$$$$$ /$$$$$$$$
+ /$$__  $$| $$__  $$ /$$__  $$   | $$$ | $$| $$_____/|__  $$__/
+| $$  \ $$| $$  \ $$| $$  \ $$   | $$$$| $$| $$         | $$   
+| $$$$$$$$| $$  | $$| $$  | $$   | $$ $$ $$| $$$$$      | $$   
+| $$__  $$| $$  | $$| $$  | $$   | $$  $$$$| $$__/      | $$   
+| $$  | $$| $$  | $$| $$  | $$   | $$\  $$$| $$         | $$   
+| $$  | $$| $$$$$$$/|  $$$$$$//$$| $$ \  $$| $$$$$$$$   | $$   
+|__/  |__/|_______/  \______/|__/|__/  \__/|________/   |__/   
+                                                               
+ADO.Net Conspect
 
 
 ----------------------------------------------
@@ -534,5 +543,272 @@ VS installer -> Modify Visual Studio 2022 -> Individual Components -> sql ->
  ✅ LINQ to SQL tools		//Файл який дозволив по діаграмі(ctrl+c) створити БД				
 								
 								
-								
-								
+					
+					
+=====================================================								
+=====================================================								
+=====================================================								
+=====================================================								
+ /$$$$$$$$             /$$     /$$   /$$                     /$$$$$$$$                                                                           /$$      
+| $$_____/            | $$    |__/  | $$                    | $$_____/                                                                          | $$      
+| $$       /$$$$$$$  /$$$$$$   /$$ /$$$$$$   /$$   /$$      | $$     /$$$$$$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$  /$$  /$$  /$$$$$$   /$$$$$$ | $$   /$$
+| $$$$$   | $$__  $$|_  $$_/  | $$|_  $$_/  | $$  | $$      | $$$$$ /$$__  $$|____  $$| $$_  $$_  $$ /$$__  $$| $$ | $$ | $$ /$$__  $$ /$$__  $$| $$  /$$/
+| $$__/   | $$  \ $$  | $$    | $$  | $$    | $$  | $$      | $$__/| $$  \__/ /$$$$$$$| $$ \ $$ \ $$| $$$$$$$$| $$ | $$ | $$| $$  \ $$| $$  \__/| $$$$$$/ 
+| $$      | $$  | $$  | $$ /$$| $$  | $$ /$$| $$  | $$      | $$   | $$      /$$__  $$| $$ | $$ | $$| $$_____/| $$ | $$ | $$| $$  | $$| $$      | $$_  $$ 
+| $$$$$$$$| $$  | $$  |  $$$$/| $$  |  $$$$/|  $$$$$$$      | $$   | $$     |  $$$$$$$| $$ | $$ | $$|  $$$$$$$|  $$$$$/$$$$/|  $$$$$$/| $$      | $$ \  $$
+|________/|__/  |__/   \___/  |__/   \___/   \____  $$      |__/   |__/      \_______/|__/ |__/ |__/ \_______/ \_____/\___/  \______/ |__/      |__/  \__/
+                                             /$$  | $$                                                                                                    
+                                            |  $$$$$$/                                                                                                    
+                                             \______/                                                                                                     							
+=====================================================								
+=====================================================								
+=====================================================								
+=====================================================								
+
+
+
+Entity Framework Conspect
+
+
+----------------------------------------------
+01_IntroADO.NETConnectedMode
+
+Entity Framework - підхід що дасть насписати код по якому згенерує БД
+
+
+ORM - Object Relational Mapping
+
+	Mapping (Переконвертовує данні з БД у класс)
+
+
+			model-workflow	
+			
+	*Database First(по ДБ класи)
+ 
+Existing Database	---->	Generated Data Model (.edmx)
+
+
+	*Model First(По схемі БД)
+	
+Data Model (.edmx)	---->	Generated Database
+
+
+	*Code First(По коду БД)
+	
+Data Model (classes) ---->	Generated Database
+or
+Existing Database	---->	Generated Data Model (classes)
+
+
+ Назва класу який звязаний з бд і має CRUD інтерфейс МАЄ бути приставка DB,DBContex
+			|  міст між C# і БД
+			
+			
+			
+			==Code First==
+			
+			
+ class Airplane
+}
+	
+	public int Id { get; set; }
+	
+	private string Model { get; set; }
+	
+	private int MaxPassangers { get; set; }
+	
+	
+	/////Relational Type: Flight ---Airplane (1....*)
+	
+	public ICollection<Flight> Flights { get; set; }
+}
+
+ class Flight
+{
+	
+	public int Id { get; set; }
+	
+	private string ArrivalCity { get; set; }
+	
+	private string DepartureCity { get; set; }
+	
+	private DateTime DepartureTime { get; set; }
+	
+	private DateTime ArrivalTime { get; set; }
+	
+	
+	/////Relational Type: Flight ---Airplane (1....*)
+	
+	public Airplane Airplane { get; set; }
+	public int AirplaneId { get; set; }
+}
+
+
+
+ Щоб зробити зв'язок one to many
+ 
+у Flight створ вказівник на літак	( public Airplane Airplane { get; set; } ) 
+
+а у Airplane колекцію Flight	( public ICollection<Flight> Flights { get; set; } )
+
+ *Крім цього створ додаткове поле у Flight для зручності :	public int AirplaneId { get; set; }
+ 
+
+
+	Щоб зробити зв'язок many to many
+	
+у Client створ вказівник на літак	( public ICollection<Flight> Flights { get; set; } ) 
+
+а у Flight колекцію Flight	( public ICollection<Client> Clients { get; set; } )	
+	
+	
+		==== C# to SQL ====
+		
+		✅	Microsoft.EntityFrameworkCore
+
+		
+public DbSet<Client> Clients { get; set; }	- проперті який 
+			у момент mapping перетвор дані на таблицю	
+	
+	  DbSet<>	- клас який у C# зберігає колекцію а у БД таблицю	
+	
+	
+public DbSet<Flight> Flights { get; set; }
+
+public DbSet<Airplane> Airplanes { get; set; }	
+	
+	
+	
+internal class AirportDbContext: DBContext{....		- клас зв'язується з БД | дає класу методи для роботи з БД
+...
+}
+
+
+потім в main створ екземпляр від якого є методи
+
+
+context.Client.Add(new Client(){
+	Name = ...
+});
+context.SaveChanges();	// те саме що і db.SubmitChanges();	
+
+
+		====CONNECTION====
+			
+	✅	Microsoft.EntityFrameworkCore.SqlServer
+
+
+ protected OVERRIDE void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-1LCG8OH\SQLEXPRESS;
+                                        Initial Catalog = PD_411_Airport;
+                                        Integrated Security=True;
+                                        Connect Timeout=5;
+                                        Encrypt=False;Trust Server Certificate=False;
+                                        Application Intent=ReadWrite;Multi Subnet Failover=False");
+        }
+
+
+
+
+public AirportDbContext()
+        {
+           this.Database.EnsureDeleted();	//Delete БД
+
+           this.Database.EnsureCreated();	//Create БД
+        }
+		
+		
+		==== C# to SQL ====
+		
+		
+Якщо назва проперті має Id/id/ID NameId то при DbSet<> ці поля будуть Primary Key
+
+Якщо назва проперті має Name+Id то при DbSet<> ці поля будуть Foreign Key
+
+
+Value - not null	Reference - nullable
+
+
+ public DateTime? Birthdate { get; set; }	[ ? ] not null --> null 
+ 
+Щоб вносити змінити як у SQL використ DataAnnotations:
+	
+	[Required] 				//not null
+	[MaxLength(Number)]		//nvarhcar(Number)
+	[Key]  					//Primary Key
+	[Column("FirstName")]  	//as 'FirstName'
+	
+	
+	
+автоматично створ	
+
+		create table ClientFlight			//проміжна таблиця
+(
+	ClientId int not null references Teachers (Id), -- 1 1 1 2 7 2 5	1..20
+	FlightsNumber int not null references Groups (Id),	 -- 4 3 5 4 4 3 4 	1...20
+	
+	-- складений первинний ключ
+	primary key (ClientId, FlightsNumber)	//перевіряє комбінації на дублікат
+)
+
+
+OnModelCreating - insert дані у таблицю при створенні БД
+	Вказ тільки основні поля
+
+        protected OVERRIDE void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Airplane>().HasData(new Airplane[]
+          {
+                new Airplane()
+                {
+                     Id = 1,
+                     Model = "Boeing747",
+                     MaxPassangers = 200
+                },
+                 new Airplane()
+                {
+                     Id = 2,
+                     Model = "Boeing748",
+                     MaxPassangers = 200
+                }
+
+          });
+            modelBuilder.Entity<Flight>().HasData(new Flight[]
+            {
+                new Flight()
+                {
+                     Number = 1,
+                     ArrivalCity = "Lviv",
+                     DepartureCity = "Kyiv",
+                     ArrivalTime = new DateTime(2025,9,21),
+                     DepartureTime = new DateTime(2025,9,21),
+                     AirplaneId = 1                    
+                },
+                 new Flight()
+                {
+                     Number = 2,
+                     ArrivalCity = "Lviv",
+                     DepartureCity = "Odessa",
+                     ArrivalTime = new DateTime(2025,9,22),
+                     DepartureTime = new DateTime(2025,9,22),
+                     AirplaneId = 2
+                }
+
+            });
+        }
+		
+		
+		
+Client cl = context.Clients.Find(1);
+ 
+            Console.WriteLine($"{cl.Name}  {cl.Email} {cl.Birthdate.ToString("yyyy-MM-dd")} ");
+
+            if(cl != null)
+            {
+                context.Clients.Remove(cl);
+                context.SaveChanges();  
+            }
