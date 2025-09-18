@@ -182,6 +182,7 @@ namespace _05_IntroToEntityFramework
 
             [Required]
             public int Length { get; set; }
+            public ICollection<PlayList> PlayLists { get; set; }
         }
         public class Category
         {
@@ -206,40 +207,73 @@ namespace _05_IntroToEntityFramework
     }
     class DBCRUD: MusicCollectionDBContext
     {
+        MusicCollectionDBContext context = new MusicCollectionDBContext();
+        private void ShowAllSongInfo()
+        {
+            Console.WriteLine($"{"Id",15} {"Name",35} {"Albums",15} {"AlbumId",15} {"Length",15}");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            foreach (var i in context.Songs.ToList())   //загруж у пам'ять щоб закрити ридер
+            {
+                Console.WriteLine($"{i.Id,15} {i.Name,35} {i.Album?.Name,35} {i.AlbumId,15} {i.Length,15} s");
+            }
+            Console.WriteLine();
+        }
+
+        private void ShowAllPlayListInfo()
+        {
+            Console.WriteLine($"{"Id",15} {"Name",35} {"Category",20} ");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            foreach (var i in context.PlayLists.ToList())   //так само
+            {
+                Console.WriteLine($"{i.Id,15} {i.Name,35} {i.Category?.Name,20}");
+            }
+            Console.WriteLine();
+        }
+        private void ShowAllGenres()
+        {
+            Console.WriteLine($"{"Id",15} {"Genre",35}");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            foreach (var i in context.Genres.ToList())
+            {
+                Console.WriteLine($"{i.Id,15} {i.Name,35}");
+            }
+            Console.WriteLine();
+        }
+
+        private void ShowAllAlbumInfo()
+        {
+            Console.WriteLine($"{"Id",15} {"Name",35} {"Genre",20} {"Year",20} {"GenreID",10}");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            foreach (var i in context.Albums.ToList())
+            {
+                Console.WriteLine($"{i.Id,15} {i.Name,35} {i.Genre?.Name,20} {i.Year,20} {i.GenreId,10}");
+            }
+            Console.WriteLine();
+        }
+
+        private void ShowCategoriesInfo()
+        {
+            Console.WriteLine($"{"Id",15} {"Category",35}");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            foreach (var i in context.Categories.ToList())
+            {
+                Console.WriteLine($"{i.Id,15} {i.Name,35}");
+            }
+            Console.WriteLine();
+        }
+
         public void addPlaylist()
         {
-            var context = new MusicCollectionDBContext();
+            ShowAllGenres();
 
-           Console.WriteLine($"{"Id",15} {"Name",35}");
-          Console.WriteLine("----------------------------------------------------------------------------");
-          foreach (var i in context.Genres)
-          {
-              Console.WriteLine($"{i.Id,15} {i.Name,35}");
-          }
-          Console.WriteLine();
+            ShowAllAlbumInfo();
+            
+            ShowAllSongInfo();
 
+            ShowCategoriesInfo();
 
-            Console.WriteLine($"{"Id",15} {"Name",35} {"Genre",20} {"Year",20} {"GenreID",10}");
-          Console.WriteLine("----------------------------------------------------------------------------");
-          foreach (var i in context.Albums)
-          {                                               
-              Console.WriteLine($"{i.Id,15} {i.Name,35} {i.Genre?.Name,20} {i.Year,20} {i.GenreId,10}");
-          }
-          Console.WriteLine();
-
-          Console.WriteLine($"{"Id",15} {"Name",35} {"Albums",15} {"AlbumId",15} {"Length",15}");
-          Console.WriteLine("----------------------------------------------------------------------------");
-          foreach (var i in context.Songs)
-          {
-              Console.WriteLine($"{i.Id,15} {i.Name,35} {i.Album?.Name,35} {i.AlbumId,15} {i.Length,15} s");
-          }
-          Console.WriteLine();
-
-          
-         
-         
-
-            while (true)//to do
+            bool firstwhile = true;
+            while (firstwhile)
             {
                 Console.WriteLine("\nEnter [ A ] - add new Playlist\nEnter [ S ] - add songs to existing Playlist\n");
                 var choice = Console.ReadKey(true);
@@ -253,31 +287,39 @@ namespace _05_IntroToEntityFramework
                         CategoryId = ctgid
                     });
                     context.SaveChanges();
+                    ShowAllPlayListInfo();
                 }
                 else if (choice.Key == ConsoleKey.S)
                 {
+                    ShowAllPlayListInfo();
                     bool flag = true;
                     while (flag)
                     {
                         Console.Write("Enter Playlist ID to add songs to: ");
                         int c = int.Parse(Console.ReadLine()!);
-                        foreach (var i in context.PlayLists)
+                        foreach (var i in context.PlayLists.ToList()) 
                         {
                             if (i.Id == c)
                             {
                                 flag = false;
                                 while (true)
                                 {
-                                    foreach (var s in context.Songs)
+                                    ShowAllSongInfo();
+                                    var allSongs = context.Songs.ToList();//завантаж дані щоб не працювало 2 reader
+                                    foreach (var s in allSongs)
                                     {
-                                        Console.WriteLine($"Add song {s.Id} to playlist?\n[ Y ] - yes\n[ N ] - no");
+                                        Console.WriteLine($"Add song with id {s.Id} to playlist?\n[ Y ] - yes\n[ N ] - no");
                                         var c3 = Console.ReadKey(true);
                                         if (c3.Key==ConsoleKey.Y)
                                         {
-                                           // i.Add(c) //TODO!!!!!
+                                           if (i.Songs == null) { i.Songs = new List<Song>(); }
+                                           i.Songs.Add(s);
                                         }
                                         else { continue; }
                                     }
+                                    context.SaveChanges();
+                                    firstwhile=false;
+
                                 }
 
                             }
@@ -288,8 +330,11 @@ namespace _05_IntroToEntityFramework
                 }
                 else Console.WriteLine("\nWrong Choice!");
             }
-
-
+            Console.WriteLine("Final Result:");
+            ShowAllSongInfo();
+            return;
         }
+
+
     }
 }
