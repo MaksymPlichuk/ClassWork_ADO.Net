@@ -1,0 +1,98 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace _06_EFMigrations.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddedSongTexts : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "SongText",
+                table: "Songs",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "SongText",
+                value: "Here come old flat top.\r\nHe come grooving up slowly.\r\nHe got joo joo eyeball.\r\nHe one holy roller.\r\nHe got hair down to his knee.\r\nGot to be a joker he just do what you please.\r\n\r\nHe wear no shoe shine.\r\nHe got toe jam football.\r\nHe got monkey finger.\r\nHe shoot Coca-Cola.\r\nHe say I know you, you know me.\r\nOne thing I can tell you is you got to be free.\r\nCome together right now over me.\r\n\r\nHe bag production.\r\nHe got walrus gumboot.\r\nHe got Ono sideboard.\r\nHe one spinal cracker.\r\nHe got feet down below his knee.\r\nHold you in his armchair you can feel his disease.\r\nCome together right now over me.\r\n\r\nHe roller coaster.\r\nHe got early warning.\r\nHe got Muddy Water.\r\nHe one Mojo filter.\r\nHe say. \"One and one and one is three.\"\r\nGot to be good looking 'cause he so hard to see.\r\nCome together right now over me.\r\nCome together.");
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "SongText",
+                value: "\r\n[Intro]\r\nLook, if you had one shot or one opportunity\r\nTo seize everything you ever wanted in one moment\r\nWould you capture it or just let it slip?\r\nYo\r\n\r\n[Verse 1]\r\nHis palms are sweaty, knees weak, arms are heavy\r\nThere's vomit on his sweater already, mom's spaghetti\r\nHe's nervous, but on the surface, he looks calm and ready\r\nTo drop bombs, but he keeps on forgetting\r\nWhat he wrote down, the whole crowd goes so loud\r\nHe opens his mouth, but the words won't come out\r\nHe's chokin', how? Everybody's jokin' now\r\nThe clock's run out, time's up, over, blaow\r\nSnap back to reality, ope, there goes gravity\r\nOpe, there goes Rabbit, he choked, he's so mad\r\nBut he won't give up that easy, no, he won't have it\r\nHe knows his whole back's to these ropes, it don't matter\r\nHe's dope, he knows that, but he's broke, he's so stagnant\r\nHe knows when he goes back to this mobile home, that's when it's\r\nBack to the lab again, yo, this old rhapsody\r\nBetter go capture this moment and hope it don't pass him\r\n\r\n[Chorus]\r\nYou better lose yourself in the music\r\nThe moment, you own it, you better never let it go (Go)\r\nYou only get one shot, do not miss your chance to blow\r\nThis opportunity comes once in a lifetime, yo\r\nYou better lose yourself in the music\r\nThe moment, you own it, you better never let it go (Go)\r\nYou only get one shot, do not miss your chance to blow\r\nThis opportunity comes once in a lifetime, yo\r\nYou better\r\n\r\n[Verse 2]\r\nHis soul's escaping through this hole that is gaping\r\nThis world is mine for the taking, make me king\r\nAs we move toward a new world order\r\nA normal life is boring, but superstardom's\r\nClose to post-mortem, it only grows harder\r\nHomie grows hotter, he blows, it's all over\r\nThese hoes is all on him, coast-to-coast shows\r\nHe's known as the Globetrotter, lonely roads\r\nGod only knows he's grown farther from home, he's no father\r\nHe goes home and barely knows his own daughter\r\nBut hold your nose 'cause here goes the cold water\r\nThese hoes don't want him no mo', he's cold product\r\nThey moved on to the next schmoe who flows\r\nHe nose-dove and sold nada, and so the soap opera\r\nIs told, it unfolds, I suppose it's old, partner\r\nBut the beat goes on, da-da-dom, da-dom, dah-dah-dah-dah\r\n\r\n[Chorus]\r\nYou better lose yourself in the music\r\nThe moment, you own it, you better never let it go (Go)\r\nYou only get one shot, do not miss your chance to blow\r\nThis opportunity comes once in a lifetime, yo\r\nYou better lose yourself in the music\r\nThe moment, you own it, you better never let it go (Go)\r\nYou only get one shot, do not miss your chance to blow\r\nThis opportunity comes once in a lifetime, yo\r\nYou better\r\n\r\n[Verse 3]\r\nNo more games, I'ma change what you call rage\r\nTear this motherfuckin' roof off like two dogs caged\r\nI was playin' in the beginning, the mood all changed\r\nI've been chewed up and spit out and booed off stage\r\nBut I kept rhymin' and stepped right in the next cypher\r\nBest believe somebody's payin' the Pied Piper\r\nAll the pain inside amplified by the\r\nFact that I can't get by with my nine-to-\r\nFive and I can't provide the right type of life for my family\r\n'Cause, man, these goddamn food stamps don't buy diapers\r\nAnd there's no movie, there's no Mekhi Phifer, this is my life\r\nAnd these times are so hard, and it's gettin' even harder\r\nTryna feed and water my seed, plus teeter-totter\r\nCaught up between bein' a father and a prima donna\r\nBaby-mama drama, screamin' on her, too much for me to wanna\r\nStay in one spot, another day of monotony's gotten me\r\nTo the point I'm like a snail, I've got\r\nTo formulate a plot or end up in jail or shot\r\nSuccess is my only motherfuckin' option, failure's not\r\nMom, I love you, but this trailer's got\r\nTo go, I cannot grow old in Salem's Lot\r\nSo here I go, it's my shot, feet, fail me not\r\nThis may be the only opportunity that I got\r\n\r\n[Chorus]\r\nYou better lose yourself in the music\r\nThe moment, you own it, you better never let it go (Go)\r\nYou only get one shot, do not miss your chance to blow\r\nThis opportunity comes once in a lifetime, yo\r\nYou better lose yourself in the music\r\nThe moment, you own it, you better never let it go (Go)\r\nYou only get one shot, do not miss your chance to blow\r\nThis opportunity comes once in a lifetime, yo\r\nYou better\r\n\r\n[Outro]\r\nYou can do anything you set your mind to, man");
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 4,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 5,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 7,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 8,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 9,
+                column: "SongText",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Songs",
+                keyColumn: "Id",
+                keyValue: 10,
+                column: "SongText",
+                value: "[Verse 1]\r\nA club isn't the best place to find a lover\r\nSo the bar is where I go (Mm)\r\nMe and my friends at the table doin' shots\r\nDrinkin' fast and then we talk slow (Mm)\r\nAnd you come over and start up a conversation with just me\r\nAnd trust me, I'll give it a chance now (Mm)\r\nTake my hand, stop, put Van the Man on the jukebox\r\nAnd then we start to dance, and now I'm singin' like\r\n\r\n[Pre-Chorus]\r\nGirl, you know I want your love\r\nYour love was handmade for somebody like me\r\nWell, come on now, follow my lead\r\nI may be crazy, don't mind me\r\nSay, \"Boy, let's not talk too much\"\r\nGrab on my waist and put that body on me\r\nWell, come on now, follow my lead\r\nCome, come on now, follow my lead, mm\r\n\r\n[Chorus]\r\nI'm in love with the shape of you\r\nWe push and pull like a magnet do\r\nAlthough my heart is fallin' too\r\nI'm in love with your body\r\nAnd last night, you were in my room\r\nAnd now my bed sheets smell like you\r\nEvery day, discoverin' somethin' brand new\r\nWell, I'm in love with your body\r\nSee Ed Sheeran Live\r\nGet tickets as low as $72\r\n[Post-Chorus]\r\nOh, I, oh, I, oh, I, oh, I\r\nWell, I'm in love with your body\r\nOh, I, oh, I, oh, I, oh, I\r\nWell, I'm in love with your body\r\nOh, I, oh, I, oh, I, oh, I\r\nWell, I'm in love with your body\r\nEvery day, discoverin' somethin' brand new\r\nI'm in love with the shape of you\r\n\r\n[Verse 2]\r\nOne week in, we let the story begin\r\nWe're goin' out on our first date (Mm)\r\nYou and me are thrifty, so go all-you-can-eat\r\nFill up your bag and I fill up a plate (Mm)\r\nWe talk for hours and hours about the sweet and the sour\r\nAnd how your family is doin' okay (Mm)\r\nAnd leave and get in a taxi, and kiss in the back seat\r\nTell the driver make the radio play and I'm singin' like\r\n\r\n[Pre-Chorus]\r\nGirl, you know I want your love\r\nYour love was handmade for somebody like me\r\nWell, come on now, follow my lead\r\nI may be crazy, don't mind me\r\nSay, \"Boy, let's not talk too much\"\r\nGrab on my waist and put that body on me\r\nWell, come on now, follow my lead\r\nCome, come on now, follow my lead, mm\r\n[Chorus]\r\nI'm in love with the shape of you\r\nWe push and pull like a magnet do\r\nAlthough my heart is fallin' too\r\nI'm in love with your body\r\nAnd last night, you were in my room\r\nAnd now my bed sheets smell like you\r\nEvery day, discoverin' somethin' brand new\r\nWell, I'm in love with your body\r\n\r\n[Post-Chorus]\r\nOh, I, oh, I, oh, I, oh, I\r\nWell, I'm in love with your body\r\nOh, I, oh, I, oh, I, oh, I\r\nWell, I'm in love with your body\r\nOh, I, oh, I, oh, I, oh, I\r\nWell, I'm in love with your body\r\nEvery day, discoverin' somethin' brand new\r\nI'm in love with the shape of you\r\n\r\n[Bridge]\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\n[Chorus]\r\nI'm in love with the shape of you\r\nWe push and pull like a magnet do\r\nAlthough my heart is fallin' too\r\nI'm in love with your body\r\nAnd last night, you were in my room\r\nAnd now my bed sheets smell like you\r\nEvery day, discoverin' somethin' brand new\r\nWell, I'm in love with your body\r\n\r\n[Outro]\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nI'm in love with your body\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nI'm in love with your body\r\nCome on, be my baby, come on\r\nCome on, be my baby, come on\r\nI'm in love with your body\r\nEvery day, discoverin' somethin' brand new\r\nI'm in love with the shape of you");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "SongText",
+                table: "Songs");
+        }
+    }
+}

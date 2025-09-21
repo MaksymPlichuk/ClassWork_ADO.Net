@@ -571,7 +571,7 @@ Entity Framework Conspect
 
 
 ----------------------------------------------
-01_IntroADO.NETConnectedMode
+01_IntroToEntityFramework
 
 Entity Framework - підхід що дасть насписати код по якому згенерує БД
 
@@ -812,3 +812,42 @@ Client cl = context.Clients.Find(1);
                 context.Clients.Remove(cl);
                 context.SaveChanges();  
             }
+			
+			
+----------------------------------------------
+02_EF_Migrations
+
+
+при many to many EF автоматично створить проміжну таблицю
+
+ можна для зручності створити її самому Щоб зробити вивід без join
+ 
+ 
+entities -  класи які зв'язуються з БД
+
+
+		треба поставити
+	
+	✅	Microsoft.EntityFramework Core.Tools
+
+migration - можливість по коду стоврити БД при змінах вона записує їх і
+		порівнює SQL з C#
+
+
+
+потім у консолі в tools -> NuGet Package Manager -> Package Manager Console
+
+	пишемо комнду:	 add-migration MigrationName
+
+	update-database 	--> 	застосувати зміни
+	
+	Remove-Migration 	-->		видалити міграцію
+	
+	
+migration - можливість гуманним методом оновити/створити БД БЕЗ ВИДАЛЕННЯ існуючої інформації
+
+
+			Більше не потрібні
+			
+		this.Database.EnsureDeleted();	
+		this.Database.EnsureCreated();
