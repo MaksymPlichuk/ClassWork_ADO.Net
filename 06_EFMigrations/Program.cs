@@ -8,9 +8,9 @@
             {
                 DBCRUD crud = new DBCRUD();
                 //crud.addPlaylist();
-                crud.ShowSongsInAlbumAboveAverage();
-                // crud.ShowTop3SongsAlbumsByArtist();  HELP!!!!!!!!
-                crud.FindSongByText();
+                //crud.ShowSongsInAlbumAboveAverage();
+                crud.ShowTop3SongsAlbumsByArtist();
+               // crud.FindSongByText();
             }
         }
     }

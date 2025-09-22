@@ -307,6 +307,38 @@ namespace _06_EFMigrations
             }
 
         }
+        public void ShowTop3SongsByArtist()
+        {
+            int id = 4;
+            //var a = context.Artists.Where(p => p.Id == 5);
+            var albums = context.Albums.Where(p => p.ArtistId == id).OrderByDescending(p=>p.Rating).Take(3);
+
+            foreach (var alb in albums)
+            {
+                Console.WriteLine($"{alb.Id,15}{alb.Name,15}{alb.Genre,15}{alb.Year,25}");
+            }
+            /*
+            var ArtistAlbums = context.Albums.Where(p => p.ArtistId == a.Id).OrderByDescending(p => p.Songs);
+                var top3Albums = ArtistAlbums.Take(3).ToList();
+
+                Console.WriteLine($"\tTop 3 Albums from {a.Name + " " + a.Surname}");
+                Console.WriteLine($"{"Id",15} {"Name",15} {"Genre",15} {"Number of Listenings",25}");
+                Console.WriteLine("----------------------------------------------------------------------------\n");
+                foreach (var alb in top3Albums)
+                {
+                    Console.WriteLine($"{alb.Id,15}{alb.Name,15}{alb.Genre,15}{alb.Year,25}");
+                }
+
+                var top3Songs = context.Songs.Include(s => s.Album).Where(s => s.Album.ArtistId == a.Id).OrderByDescending(s => long.Parse(s.NumberOfListenings.Replace(" ", ""))).Take(3).ToList();
+                Console.WriteLine($"\tTop 3 Songs from {a.Name + " " + a.Surname}");
+                Console.WriteLine($"{"Id",15} {"Name",15} {"Length",15} {"Number of Listenings",25}");
+                Console.WriteLine("----------------------------------------------------------------------------\n");
+                foreach (var sg in top3Songs)
+                {
+                    Console.WriteLine($"{sg.Id,15}{sg.Name,15}{sg.Length,15}{sg.NumberOfListenings,25}");
+                }
+            */
+        }
         public void FindSongByText()
         {
             Console.Write("Enter line: "); string line = Console.ReadLine()!;

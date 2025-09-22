@@ -851,3 +851,60 @@ migration - можливість гуманним методом оновити/
 			
 		this.Database.EnsureDeleted();	
 		this.Database.EnsureCreated();
+		
+		
+----------------------------------------------
+03_EF_ Fluent API
+
+Fluent API - можливості винести Data anottations в одне місце
+	дає можливість налаштувати зв'язки
+	
+
+modelBuilder. Entity<Airplane>(). HasKey(a => a.Id); //primary key
+modelBuilder. Entity<Airplane>().ToTable("Plane");//Table Name
+
+		=бере літака у якого проперті Model=
+modelBuilder. Entity<Airplane>().Property(a => a.Model)//найкращий
+modelBuilder. Entity<Airplane>().Property("Model")
+modelBuilder. Entity<Airplane>().Property(nameof(Airplane.Model))		
+
+
+modelBuilder.Entity<Airplane>()
+.Property(a => a. Model)
+.HasMaxLength(100)
+.IsRequired();
+
+
+	до проперті c.Name замість
+[Required,MaxLength(150),]
+
+modelBuilder. Entity<Client>().Property(c=>c.Name)
+IsRequired()
+HasMaxLength(150)
+HasColumnName("FirstName");
+
+--------------------------
+
+Relationship navigations
+
+	==прив'язує Clients до Flights many to many==
+				конкретизує до якої властивості прив'язати
+		
+пишеться щоб правильніше побудувалась таблиця і взяла ті проперті
+		
+modelBuilder. Entity<Flight>()
+.HasMany(f => f.Clients)
+.WithMany (c => c.Flights);
+
+//one to many 1.
+modelBuilder. Entity<Flight>()
+.HasOne(f => f. Airplane)
+.WithMany (a=>a.Flights)
+.HasForeignKey(f=> f. AirplaneId);
+
+
+--------------------------
+
+Seeder	- заміняє HasData
+
+
