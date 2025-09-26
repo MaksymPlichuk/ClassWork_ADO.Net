@@ -883,7 +883,7 @@ IsRequired()
 HasMaxLength(150)
 HasColumnName("FirstName");
 
---------------------------
+==========
 
 Relationship navigations
 
@@ -902,9 +902,72 @@ modelBuilder. Entity<Flight>()
 .WithMany (a=>a.Flights)
 .HasForeignKey(f=> f. AirplaneId);
 
+===========
 
---------------------------
+Seeder	-  OnModelCreating(ModelBuilder modelBuilder)
 
-Seeder	- заміняє HasData
+
+проміжна таблиця допомагає вже заповнити данні
+
+Для кожного класу створ нову функцію 
+
+ public static void SeedAiplanes(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Airplane>().HasData(new Airplane[]
+            {
+			new Airplane(){ ......}
+			}
+		}
+		
+		
+   public  static void SeedFlights(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Flight>().HasData(new Flight[]
+           {
+                new Flight() {.....}		
+		   }
+		}
+
+
+
+----------------------------------------------
+04_EF_Loading Data
+
+JOIN - load data Include(relation data)
+
+	var flight = context. Flights
+	.Include(f => f. Airplane)	//JOIN
+	.Where(f => f. ArrivalCity == "Lviv")
+	.OrderBy(f=> f. DepartureTime);
+
+foreach (var f in flight){
+Console.WriteLine($"Arrival city {f.ArrivalCity}
+	$"Departure city: {f.DepartureCity}\n" +
+	$"Departure time: {f.Departure Time. ToShortDateString()}\n" +
+	$"Airplane: {f.AirplaneId} {f.Airplane.Model}");
+}							при Include буде працювати
+							без виводитиме Null object not set
+
+
+	//Явна підгрузка до конеретного об'єкта
+	
+Client cl context.Clients. Find (3);
+Console.WriteLine($"{cl?.Name} {cl?.Email}
+Console.WriteLine(cl.Flights);
+
+Entry - пігрузка для 1 елем
+
+data library - клас не запускає консоль краще для користувача
+
+----------------------------------------------
+05_EF_OneToOne
+
+
+
+
+
+
+
+
 
 

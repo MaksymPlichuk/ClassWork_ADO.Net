@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06_EFMigrations", "06_EFMig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07_EFFluentAPI", "07_EFFluentAPI\07_EFFluentAPI.csproj", "{FF852D73-34A8-47FB-8C25-3D869A705637}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalWorkApp", "FinalWorkApp\FinalWorkApp.csproj", "{CDA38875-F1AA-4B39-A6D2-3D9223A29CC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalWorkDataLibrary", "FinalWorkDataLibrary\FinalWorkDataLibrary.csproj", "{09620E69-89E3-461E-A673-128F2BDE5E46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{FF852D73-34A8-47FB-8C25-3D869A705637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF852D73-34A8-47FB-8C25-3D869A705637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF852D73-34A8-47FB-8C25-3D869A705637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA38875-F1AA-4B39-A6D2-3D9223A29CC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA38875-F1AA-4B39-A6D2-3D9223A29CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA38875-F1AA-4B39-A6D2-3D9223A29CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA38875-F1AA-4B39-A6D2-3D9223A29CC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09620E69-89E3-461E-A673-128F2BDE5E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09620E69-89E3-461E-A673-128F2BDE5E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09620E69-89E3-461E-A673-128F2BDE5E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09620E69-89E3-461E-A673-128F2BDE5E46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
