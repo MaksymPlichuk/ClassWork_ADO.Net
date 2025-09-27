@@ -4,7 +4,15 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var Db = new DbCRUD();
+            Db.ShowCategoryInfo();
+            Db.ShowCityInfo();
+            Db.ShowCountryInfo();
+            Db.ShowPositionInfo();
+            Db.ShowProductInfo();
+            Db.ShowShopInfo();
+            Db.ShowWorkerInfo();
+
         }
     }
 }

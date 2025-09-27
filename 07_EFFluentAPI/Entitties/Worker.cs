@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _07_EFFluentAPI.Entitties
 {
-    internal class Worker
+    public class Worker
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _07_EFFluentAPI.Entitties
 {
-    internal class Category
+    public class Category
     {
         public int Id { get; set; }
         public string Name { get; set; }

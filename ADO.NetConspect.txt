@@ -853,63 +853,105 @@ migration - можливість гуманним методом оновити/
 		this.Database.EnsureCreated();
 		
 		
+проміжна таблиця допомагає вже заповнити данні		
+		
 ----------------------------------------------
 03_EF_ Fluent API
 
 Fluent API - можливості винести Data anottations в одне місце
-	дає можливість налаштувати зв'язки
+	дає можливість налаштувати зв'язки (як яка проперті прив'язана)
 	
 
-modelBuilder. Entity<Airplane>(). HasKey(a => a.Id); //primary key
-modelBuilder. Entity<Airplane>().ToTable("Plane");//Table Name
+
+
+modelBuilder. Entity<Airplane>(). HasKey(a => a.Id); 	//primary key (робить поле первинним ключем)
+modelBuilder. Entity<Airplane>().ToTable("Plane");		//Table Name (дає назву таблиці)
+														Table("Plane")
+
+
 
 		=бере літака у якого проперті Model=
-modelBuilder. Entity<Airplane>().Property(a => a.Model)//найкращий
-modelBuilder. Entity<Airplane>().Property("Model")
-modelBuilder. Entity<Airplane>().Property(nameof(Airplane.Model))		
+ 1	modelBuilder. Entity<Airplane>().Property(a => a.Model)		//найкращий
+ 2	modelBuilder. Entity<Airplane>().Property("Model")
+ 3	modelBuilder. Entity<Airplane>().Property(nameof(Airplane.Model))		
 
 
-modelBuilder.Entity<Airplane>()
-.Property(a => a. Model)
-.HasMaxLength(100)
-.IsRequired();
+    до проперті c.Name замість
+ [Required,MaxLength(150),Column("Plane")]
 
 
-	до проперті c.Name замість
-[Required,MaxLength(150),]
+ modelBuilder.Entity<Airplane>()
+ .Property(a => a. Model)
+ .HasMaxLength(100)		// MaxLength(100)
+ .IsRequired();			// Required
 
-modelBuilder. Entity<Client>().Property(c=>c.Name)
-IsRequired()
-HasMaxLength(150)
-HasColumnName("FirstName");
 
-==========
+ modelBuilder. Entity<Client>()
+ .Property(c=>c.Name)
+ .IsRequired()
+ .HasMaxLength(150)
+ .HasColumnName("FirstName");	//Column("Plane")
 
-Relationship navigations
+
+
+ .HasKey(a => a.Id);   				[Key]
+ .ToTable("Plane");					[Table("Plane")]	
+ 
+  .HasMaxLength(100)				[MaxLength(100)]
+  .IsRequired();					[Required]
+  .HasColumnName("FirstName");		[Column("Plane")]
+
+
+
+
+
+					Relationship navigations
 
 	==прив'язує Clients до Flights many to many==
 				конкретизує до якої властивості прив'язати
 		
-пишеться щоб правильніше побудувалась таблиця і взяла ті проперті
+--пишеться щоб правильніше побудувалась таблиця і взяла ті проперті
+		У класах колекції елем на елем залишаємо
+		
+		
+		//many to many	*...........*
 		
 modelBuilder. Entity<Flight>()
-.HasMany(f => f.Clients)
-.WithMany (c => c.Flights);
+ .HasMany(f => f.Clients)
+ .WithMany (c => c.Flights);
 
-//one to many 1.
+
+		//one to many 	1..................*
+			//літак має * польотів а політ 1 літак
+		
 modelBuilder. Entity<Flight>()
-.HasOne(f => f. Airplane)
-.WithMany (a=>a.Flights)
-.HasForeignKey(f=> f. AirplaneId);
-
-===========
-
-Seeder	-  OnModelCreating(ModelBuilder modelBuilder)
+ .HasOne(f => f. Airplane)
+ .WithMany (a=>a.Flights)
+ .HasForeignKey(f=> f. AirplaneId);
 
 
-проміжна таблиця допомагає вже заповнити данні
 
-Для кожного класу створ нову функцію 
+
+
+
+					Seeder
+
+для зручності виносимо в інший клас DbInitializer
+	і створ папку Helpers
+	
+
+	Seeder	-  той самий  OnModelCreating(ModelBuilder modelBuilder)
+
+
+Для кожної ініціалізації класу створ нову функцію 
+
+
+	додаємо THIS і STATIC шоб зробити extension 
+			і у DbContext викликати modelBuilder.SeedFlights();
+				
+
+	static class DbInitializer {
+
 
  public static void SeedAiplanes(this ModelBuilder modelBuilder)
         {
@@ -928,7 +970,7 @@ Seeder	-  OnModelCreating(ModelBuilder modelBuilder)
 		   }
 		}
 
-
+}
 
 ----------------------------------------------
 04_EF_Loading Data
