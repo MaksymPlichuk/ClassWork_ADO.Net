@@ -975,31 +975,68 @@ modelBuilder. Entity<Flight>()
 ----------------------------------------------
 04_EF_Loading Data
 
-JOIN - load data Include(relation data)
 
-	var flight = context. Flights
-	.Include(f => f. Airplane)	//JOIN
+ Visual Studio Installer - > ✅ Class Designer	//щоб на основі БД була діаграма
+
+
+
+Типи підгрузок
+	1 явний Join - Проміжна таблиця
+	2 явна підгрузка до 1 параметра
+
+
+	Console.WriteLine($"{cl?.Name}  {cl?.Email} - якщо об'єкт буде null то воно його виведе без помилки
+
+
+JOIN - load data Include(relation data)		//(relation data) - тип данних який підтягуємо
+
+
+var flight = context.Flights
+	.Include(f => f. Airplane)				//JOIN
 	.Where(f => f. ArrivalCity == "Lviv")
 	.OrderBy(f=> f. DepartureTime);
 
-foreach (var f in flight){
-Console.WriteLine($"Arrival city {f.ArrivalCity}
-	$"Departure city: {f.DepartureCity}\n" +
-	$"Departure time: {f.Departure Time. ToShortDateString()}\n" +
-	$"Airplane: {f.AirplaneId} {f.Airplane.Model}");
-}							при Include буде працювати
+
+foreach (var f in flight)
+ {
+ 	Console.WriteLine($"Arrival city {f.ArrivalCity}
+ 		$"Departure city: {f.DepartureCity}\n" +
+ 		$"Departure time: {f.Departure Time. ToShortDateString()}\n" +
+ 		$"Airplane: {f.AirplaneId} {f.Airplane.Model}");
+ }														при Include буде працювати
 							без виводитиме Null object not set
 
 
-	//Явна підгрузка до конеретного об'єкта
+
+
+ .Include(f => f. Airplane)	//Підгрузка 
+					абсолютно всіх данних з таблиці Airplane до всіх Flight
+						
+
+
+
+	//Явна підгрузка | підгрузка до конеретного об'єкта
 	
-Client cl context.Clients. Find (3);
-Console.WriteLine($"{cl?.Name} {cl?.Email}
-Console.WriteLine(cl.Flights);
+ --Explicit loading data : Context.Entry(entity).Collection/References.Load()
+												
+								Collection - для ICollection<>
+								References - для Посилання на 1 об'єкт
 
-Entry - пігрузка для 1 елем
 
+
+Client cl = context.Clients.Find(3);
+
+
+ context.Entry(cl).Collection(cl => cl.Flights).Load();	
+	
+	Entry(cl) - Вказ для якого об'єкта конкретно підгружаються данні
+	
+	
+DataAccess 	
+	або
 data library - клас не запускає консоль краще для користувача
+
+  повинен мати все що стоується роботи з БД (Entities,Helpers,Migrations)
 
 ----------------------------------------------
 05_EF_OneToOne

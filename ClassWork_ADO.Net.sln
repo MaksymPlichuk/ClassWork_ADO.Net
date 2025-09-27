@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalWorkApp", "FinalWorkAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalWorkDataLibrary", "FinalWorkDataLibrary\FinalWorkDataLibrary.csproj", "{09620E69-89E3-461E-A673-128F2BDE5E46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08_EFLoadingDataApp", "08_EFLoadingDataApp\08_EFLoadingDataApp.csproj", "{99FC25DC-7B96-455D-A150-A02C0C06C843}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08_DataLibrary", "08_DataLibrary\08_DataLibrary.csproj", "{8E7765DF-0678-4A21-BD89-EE74C11994A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{09620E69-89E3-461E-A673-128F2BDE5E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09620E69-89E3-461E-A673-128F2BDE5E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09620E69-89E3-461E-A673-128F2BDE5E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99FC25DC-7B96-455D-A150-A02C0C06C843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99FC25DC-7B96-455D-A150-A02C0C06C843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99FC25DC-7B96-455D-A150-A02C0C06C843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99FC25DC-7B96-455D-A150-A02C0C06C843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E7765DF-0678-4A21-BD89-EE74C11994A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E7765DF-0678-4A21-BD89-EE74C11994A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E7765DF-0678-4A21-BD89-EE74C11994A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E7765DF-0678-4A21-BD89-EE74C11994A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
