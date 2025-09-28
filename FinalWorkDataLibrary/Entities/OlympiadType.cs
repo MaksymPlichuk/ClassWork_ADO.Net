@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalWorkDataLibrary
+namespace FinalWorkDataLibrary.Entities
 {
-    internal class MedalType
+    public class OlympiadType
     {
         public int Id { get; set; }
-        public string Type { get; set; }
+        public string Name { get; set; }
+        public ICollection<Olympiad> Olympiads { get; set; }
     }
 }

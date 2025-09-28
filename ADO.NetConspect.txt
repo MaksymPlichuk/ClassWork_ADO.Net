@@ -1041,12 +1041,24 @@ data library - клас не запускає консоль краще для �
 ----------------------------------------------
 05_EF_OneToOne
 
+one to one - самий складний і неприродній зв'язок для БД
+
+при цьому зв'язку визначаємо яка таблиця буде головною а яка залежною
 
 
+	//залежна
+public class Credential	{
+...
+public Client Client { get; set; }	//null
+public int ClientId { get; set; }	//null
+	}
 
-
-
-
+	//основна бо ( int? )
+public class Client	{
+...
+public Credential Credential { get; set; }	//null
+public int? CredentialId { get; set; }	//not null
+	}
 
 
 
