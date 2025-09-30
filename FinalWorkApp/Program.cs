@@ -10,9 +10,14 @@ namespace FinalWorkApp
             Console.WriteLine("Hello, World!");
             OlympiadDbContext context = new OlympiadDbContext();
             Crud crud = new Crud();
-            crud.ShowContryResultInOlympiad();
 
-
+            //crud.ShowContryResultInOlympiad();
+            //crud.ShowMedalistsFromOlympiad();
+            //crud.ShowTopContryGoldMedals();
+            //crud.ShowTopContryMedals();
+            //crud.ShowTopMedalists();
+            crud.ShowTopCountryHost();
+            crud.CountryPerfStatictics();
 
         }
     }

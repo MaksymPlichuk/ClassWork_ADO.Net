@@ -102,46 +102,463 @@ namespace FinalWorkDataLibrary.Entities
     {
         OlympiadDbContext context = new OlympiadDbContext();
         public void Add() {
-        
+
+            context.Athletes.Add(new Athlete()
+            {
+                Name = Console.ReadLine()!,
+                Surname = Console.ReadLine()!,
+                //DateOfBirth = DateTime()
+
+            });
+            //TODO
+            context.SaveChanges();
         }
         public void Update() { }
-        public void Delet() { }
+        public void Delete() { }
 
-        public void ShowContryResultInOlympiad()
-        {
-            var olympiads = context.Olympiads;
-            foreach (var o in olympiads)
+        private void ShowOlympInfo() {
+            Console.WriteLine("All Olympiads:\n");
+            var allinfo = context.Olympiads.Include(o => o.Country).Include(o => o.City);
+            foreach (var i in allinfo)
             {
-                Console.WriteLine($"{o.Id}\t{o.Name}");
+                Console.WriteLine($"{i.Id,5}{i.Name,35}{i.Year,15}{i.City.Name,25}{i.Country.Name,25}");
             }
             Console.WriteLine();
-            bool flag = true;
-
-            while (flag)
+        }
+        private int PickOlympiad()
+        {
+            int choise;
+            while (true)
             {
-                Console.Write("Choose Olympiad by Id to see countries results: "); int choise = int.Parse(Console.ReadLine()!);
-                foreach (var o in olympiads)
+                Console.Write("Choose Olympiad by Id to see countries results: "); choise = int.Parse(Console.ReadLine()!);
+                foreach (var o in context.Olympiads)
                 {
-                    if (o.Id==choise)
+                    if (o.Id == choise)
                     {
                         Console.WriteLine($"{o.Name} is Picked!\n");
-                        flag=false;
+                        return choise;
                     }
                 }
                 Console.WriteLine("Wrong ID!");
             }
+        }
+        public void ShowContryResultInOlympiad()
+        {
+            ShowOlympInfo();
 
-           // var res = context.Countries.Include(c=>c.Athletes).Where(c=>c.);
-            //var countRes = context.Countries.Include(o=>o.Olympiads).Count(c => c.Name);
-
-            foreach (var c in context.Countries)
+            while (true)
             {
-                Console.WriteLine($"{c.Name}\t");
+                Console.WriteLine("\nPress [ A ] - to show all time results\nPress [ B ] - to show results for certain olympiad\n");
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.A)
+                {
+                    var medalAllTimeCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalAllTimeCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                    }
+                    return;
+                }
+                else if (key.Key==ConsoleKey.B)
+                {
+                    
+                    int choise = PickOlympiad();
+
+                    var medalCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.OlympiadId == choise && r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                    }
+                    return;
+                }
+                else { Console.WriteLine("Wrong Key!"); }
             }
 
+        }
+        public void ShowMedalistsFromOlympiad()
+        {
+            ShowOlympInfo();
+            while (true)
+            {
+                Console.WriteLine("\nPress [ A ] - to show all time results\nPress [ B ] - to show results for certain olympiad\n"); var key= Console.ReadKey(true);
+                if (key.Key==ConsoleKey.A)
+                {
+
+                    var allTimeMedalist = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Sport).ThenInclude(s => s.SportType)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.MedalId != null).GroupBy(r => r.Athlete.Sport.SportType.Name)
+                         .Select(g => new
+                         {
+                             SportName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count(),
+
+                             Athletes = g.Select(a => new
+                             {
+                                 Name = a.Athlete.Name,
+                                 Surname = a.Athlete.Surname
+                             }).ToList()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals)
+                         .ToList();
+
+                    Console.WriteLine($"{"Full Name",15}{"Sport",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in allTimeMedalist)
+                    {
+                        foreach (var a in i.Athletes)
+                        {
+                            Console.WriteLine($"{a.Name+" "+a.Surname,15}{i.SportName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                        }                        
+                    }
+                    return;
+
+                }
+                else if (key.Key == ConsoleKey.B) {
+                    var choise = PickOlympiad();
+                    var olympMedalists = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Sport).ThenInclude(s => s.SportType)
+                        .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.OlympiadId==choise && r.MedalId != null).GroupBy(r => r.Athlete.Sport.SportType.Name)
+                        .Select(g => new
+                        {
+                            SportName = g.Key,
+                            GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                            SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                            BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                            TotalMedals = g.Count(),
+
+                            Athletes = g.Select(a => new
+                            {
+                                Name = a.Athlete.Name,
+                                Surname = a.Athlete.Surname
+                            }).ToList()
+                        })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals)
+                         .ToList();
+                    Console.WriteLine($"{"Full Name",15}{"Sport",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in olympMedalists)
+                    {
+                        foreach (var a in i.Athletes)
+                        {
+                            Console.WriteLine($"{a.Name + " " + a.Surname,15}{i.SportName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                        }
+                    }
+                    return;
+                }
+                else { Console.WriteLine("Wrong Key!"); }
+            }
+        }
+
+        public void ShowTopContryGoldMedals()
+        {
+            ShowOlympInfo();
+
+            while (true)
+            {
+                Console.WriteLine("\nPress [ A ] - to show all time results\nPress [ B ] - to show results for certain olympiad\n");
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.A)
+                {
+                    var medalAllTimeCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals).Take(1)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalAllTimeCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                    }
+                    return;
+                }
+                else if (key.Key == ConsoleKey.B)
+                {
+
+                    int choise = PickOlympiad();
+
+                    var medalCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.OlympiadId == choise && r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals).Take(1)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                    }
+                    return;
+                }
+                else { Console.WriteLine("Wrong Key!"); }
+            }
 
         }
 
+        public void ShowTopContryMedals()
+        {
+            ShowOlympInfo();
 
+            while (true)
+            {
+                Console.WriteLine("\nPress [ A ] - to show all time results\nPress [ B ] - to show results for certain olympiad\n");
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.A)
+                {
+                    var medalAllTimeCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count()
+                         })
+                         .OrderByDescending(x => x.TotalMedals).Take(1)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalAllTimeCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                    }
+                    return;
+                }
+                else if (key.Key == ConsoleKey.B)
+                {
+
+                    int choise = PickOlympiad();
+
+                    var medalCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.OlympiadId == choise && r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count()
+                         })
+                         .OrderByDescending(x => x.TotalMedals).Take(1)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                    }
+                    return;
+                }
+                else { Console.WriteLine("Wrong Key!"); }
+            }
+
+        }
+
+        public void ShowTopMedalists()
+        {
+
+          var allTimeMedalist = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Sport).ThenInclude(s => s.SportType)
+               .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.MedalId != null).GroupBy(r => r.Athlete.Sport.SportType.Name)
+               .Select(g => new
+               {
+                   SportName = g.Key,
+                   GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                   SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                   BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                   TotalMedals = g.Count(),
+
+                   Athletes = g.Select(a => new
+                   {
+                       Name = a.Athlete.Name,
+                       Surname = a.Athlete.Surname
+                   }).ToList()
+               })
+               .OrderByDescending(x => x.GoldMedals)
+               .ThenByDescending(x => x.SilverMedals)
+               .ThenByDescending(x => x.BronzeMedals).Take(1)
+               .ToList();
+
+          Console.WriteLine($"{"Full Name",15}{"Sport",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+          Console.WriteLine("----------------------------------------------------------------------------");
+          foreach (var i in allTimeMedalist)
+          {
+              foreach (var a in i.Athletes)
+              {
+                  Console.WriteLine($"{a.Name + " " + a.Surname,15}{i.SportName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+              }
+          }
+          return;
+        }
+
+        public void ShowTopCountryHost()
+        {
+            var topHost = context.Olympiads.Include(o => o.Country).GroupBy(o => o.Country.Name)
+                .Select(g => new
+                {
+                    TopCountry = g.Key,
+                    NumberOfHosts = g.Count()
+                })
+                .OrderByDescending(x => x.NumberOfHosts).Take(1).ToList();
+
+            Console.WriteLine($"{"Country",15} {"Number Of Hosts",15}");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            foreach (var i in topHost)
+            {
+              Console.WriteLine($"{i.TopCountry,15}{i.NumberOfHosts,15}");
+            }
+            return;
+        }
+        public void CountryPerfStatictics()
+        {
+            ShowOlympInfo();
+
+            while (true)
+            {
+                Console.WriteLine("\nPress [ A ] - to show all time results\nPress [ B ] - to show results for certain olympiad\n");
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.A)
+                {
+                    var medalAllTimeCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country).Include(r => r.Athlete).ThenInclude(a => a.Sport).ThenInclude(s => s.SportType)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count(),
+                             Athletes = g.Select(a => new
+                             {
+                                 Name = a.Athlete.Name,
+                                 Surname = a.Athlete.Surname,
+                                 Sport = a.Athlete.Sport
+                             }).ToList()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalAllTimeCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                        Console.WriteLine("----------------------------------------------------------------------------");
+                        Console.WriteLine($"{"Full Name",40} {"Sport Name",35} {"Sport Type",35} ");
+                        Console.WriteLine("   -----     -----     -----     -----     -----     -----     -----     -----     -----     -----     -----  ");
+                        foreach (var a in i.Athletes)
+                        {
+                            Console.WriteLine($"{a.Name + " " + a.Surname,40}{a.Sport.Name,35}{a.Sport.SportType.Name,35} ");
+                        }
+                        Console.WriteLine("----------------------------------------------------------------------------");
+                    }
+                    return;
+                }
+                else if (key.Key == ConsoleKey.B)
+                {
+
+                    int choise = PickOlympiad();
+
+                    var medalCount = context.Results.Include(r => r.Athlete).ThenInclude(a => a.Country).Include(r=>r.Athlete).ThenInclude(a=>a.Sport).ThenInclude(s=>s.SportType)
+                         .Include(r => r.Medal).ThenInclude(m => m.MedalType).Where(r => r.OlympiadId == choise && r.MedalId != null).GroupBy(r => r.Athlete.Country.Name)
+                         .Select(g => new
+                         {
+                             CountryName = g.Key,
+                             GoldMedals = g.Count(r => r.Medal.MedalType.Name == "Gold"),
+                             SilverMedals = g.Count(r => r.Medal.MedalType.Name == "Silver"),
+                             BronzeMedals = g.Count(r => r.Medal.MedalType.Name == "Bronze"),
+                             TotalMedals = g.Count(),
+                              Athletes = g.Select(a => new
+                             {
+                                 Name = a.Athlete.Name,
+                                 Surname = a.Athlete.Surname,
+                                 Sport = a.Athlete.Sport
+                             }).ToList()
+                         })
+                         .OrderByDescending(x => x.GoldMedals)
+                         .ThenByDescending(x => x.SilverMedals)
+                         .ThenByDescending(x => x.BronzeMedals)
+                         .ToList();
+
+                    Console.WriteLine($"{"Country",15} {"Gold",15} {"Silver",15}{"Bronze",15}{"Total Medals",15} ");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (var i in medalCount)
+                    {
+                        Console.WriteLine($"{i.CountryName,15} {i.GoldMedals,15}{i.SilverMedals,15}{i.BronzeMedals,15}{i.TotalMedals,15}");
+                        Console.WriteLine("----------------------------------------------------------------------------");
+                        Console.WriteLine($"{"Full Name",40} {"Sport Name",35} {"Sport Type",35} ");
+                        Console.WriteLine("   -----     -----     -----     -----     -----     -----     -----     -----     -----     -----     -----  ");
+                        foreach (var a in i.Athletes)
+                        {
+                            Console.WriteLine($"{a.Name + " " + a.Surname,40}{a.Sport.Name,35}{a.Sport.SportType.Name,35} ");
+                        }
+                        Console.WriteLine("----------------------------------------------------------------------------");
+                    }
+                    return;
+                }
+                else { Console.WriteLine("Wrong Key!"); }
+            }
+        }
     }
 }
