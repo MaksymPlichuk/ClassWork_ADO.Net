@@ -102,19 +102,409 @@ namespace FinalWorkDataLibrary.Entities
     {
         OlympiadDbContext context = new OlympiadDbContext();
         public void Add() {
-
-            context.Athletes.Add(new Athlete()
+            while (true)
             {
-                Name = Console.ReadLine()!,
-                Surname = Console.ReadLine()!,
-                //DateOfBirth = DateTime()
 
-            });
-            //TODO
+
+                Console.Write("\n[ A ] - add Athlete\n[ B ] - add City\n[ C ] - add Country\n[ D ] - add Olympiad\n[ E ] - add Result\n[ F ] - add Sport"); var key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.A)
+                {
+                    Console.Write("\nEnter Name: ");string name = Console.ReadLine()!;
+                    Console.Write("Enter Surname: ");string surname = Console.ReadLine()!;
+                    Console.Write("Enter DateOfBirth(DD-MM-YYYY): "); DateTime date =  DateTime.Parse(Console.ReadLine()!);
+                    Console.Write("Enter CountryId: ");int countryId = int.Parse(Console.ReadLine()!);
+                    Console.Write("Enter SportId: ");int sportId = int.Parse(Console.ReadLine()!);
+                    context.Athletes.Add(new Athlete()
+                    {
+                        Name = name,
+                        Surname = surname,
+                        DateOfBirth = date,
+                        PhotoPath = "test",
+                        CountryId = countryId,
+                        SportId = sportId
+                    });
+                    Console.WriteLine("\nAthlete Added!");
+                    break;
+                }
+                else if (key.Key == ConsoleKey.B)
+                {
+                    Console.Write("\nEnter Name: "); string name = Console.ReadLine()!;
+                    Console.Write("Enter CountryId: "); int countryId = int.Parse(Console.ReadLine()!);
+                    context.Cities.Add(new City()
+                    {
+                        Name = name,
+                        CountryId = countryId
+                    });
+                    Console.WriteLine("\nCity Added!");
+                    break;
+                }
+                else if (key.Key == ConsoleKey.C)
+                {
+                    Console.Write("\nEnter Name: "); string name = Console.ReadLine()!;
+                    context.Countries.Add(new Country()
+                    {
+                        Name = name
+                    });
+                    Console.WriteLine("\nCountry Added!");
+                    break;
+                }
+                else if (key.Key == ConsoleKey.D)
+                {
+                    Console.Write("\nEnter Name: "); string name = Console.ReadLine()!;
+                    Console.Write("Enter Year: "); int year = int.Parse(Console.ReadLine()!);
+                    Console.Write("Enter OlympiadId: "); int olympId = int.Parse(Console.ReadLine()!);
+                    Console.Write("Enter CountryId: "); int countryId = int.Parse(Console.ReadLine()!);
+                    context.Olympiads.Add(new Olympiad()
+                    {
+                        Name = name,
+                        Year = year,
+                        OlympiadTypeId = olympId,
+                        CountryId = countryId
+                    });
+                    Console.WriteLine("\nOlympiad Added!");
+                    break;
+                }
+                else if (key.Key == ConsoleKey.E)
+                {
+                    Console.Write("\nEnter OlympiadId: "); int olympId = int.Parse(Console.ReadLine()!);
+                    Console.Write("Enter MedalId: "); int medalId = int.Parse(Console.ReadLine()!);
+                    Console.Write("Enter AthleteId: "); int athleteId = int.Parse(Console.ReadLine()!);
+                    Console.Write("Enter SportId: "); int sportId = int.Parse(Console.ReadLine()!);
+                    context.Results.Add(new Result()
+                    {
+                        OlympiadId = olympId,
+                        MedalId = medalId,
+                        AthleteId = athleteId,
+                        SportId = sportId
+                    });
+                    Console.WriteLine("\nResult Added!");
+                    break;
+                }
+                else if (key.Key == ConsoleKey.F)
+                {
+                    Console.Write("\nEnter Name: "); string name = Console.ReadLine()!;
+                    Console.Write("Enter SportTypeId: "); int sportId = int.Parse(Console.ReadLine()!);
+                    context.Sports.Add(new Sport()
+                    {
+                        Name = name,
+                        SportTypeId = sportId
+                    });
+                    Console.WriteLine("\nSport Added!");
+                    break;
+                }
+                else { Console.WriteLine("Wrong Key!\n"); }
+            }
             context.SaveChanges();
         }
-        public void Update() { }
-        public void Delete() { }
+        public void Update() {
+            bool exit = false;
+            while (true)
+            {
+
+                Console.Write("\n[ A ] - update Athlete\n[ B ] - update City\n[ C ] - update Country\n[ D ] - update Olympiad\n[ E ] - update Result\n[ F ] - update Sport"); var key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.A)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Athletes)
+                        {
+                            if (a.Id == kId)
+                            {
+                                Console.WriteLine("Athlete Selected!\n");
+                                Console.Write("Enter Name: "); string name = Console.ReadLine()!;
+                                Console.Write("Enter Surname: "); string surname = Console.ReadLine()!;
+                                Console.Write("Enter DateOfBirth(DD-MM-YYYY): "); DateTime date = DateTime.Parse(Console.ReadLine()!);
+                                Console.Write("Enter CountryId: "); int countryId = int.Parse(Console.ReadLine()!);
+                                Console.Write("Enter SportId: "); int sportId = int.Parse(Console.ReadLine()!);
+                                context.Athletes.Update(new Athlete()
+                                {
+                                    Name = name,
+                                    Surname = surname,
+                                    DateOfBirth = date,
+                                    PhotoPath = "test",
+                                    CountryId = countryId,
+                                    SportId = sportId
+                                });
+                                Console.WriteLine("\nAthlete Changed!");
+                                exit = true;
+                               
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        
+                        Console.WriteLine($"\nAthlete with {kId} Id wasn't found!\n");
+                    }                                   
+                }
+                else if (key.Key == ConsoleKey.B)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Cities)
+                        {
+                            if (a.Id == kId)
+                            {
+                                Console.WriteLine("City Selected!\n");
+                                Console.Write("Enter Name: "); string name = Console.ReadLine()!;
+                                Console.Write("Enter CountryId: "); int countryId = int.Parse(Console.ReadLine()!);
+                                context.Cities.Update(new City()
+                                {
+                                    Name = name,
+                                    CountryId = countryId
+                                });
+                                Console.WriteLine("\nCity Changed!");
+                                exit = true;
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nCity with {kId} Id wasn't found!\n");
+                    }
+                   
+                }
+
+                else if (key.Key == ConsoleKey.C)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Countries)
+                        {
+                            if (a.Id == kId)
+                            {
+                                Console.WriteLine("Country Selected!\n");
+                                Console.Write("Enter Name: "); string name = Console.ReadLine()!;
+                                context.Countries.Update(new Country()
+                                {
+                                    Name = name
+                                });
+                                Console.WriteLine("\nCountry Changed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nCountry with {kId} Id wasn't found!\n");
+                    }                 
+                }
+                else if (key.Key == ConsoleKey.D)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Olympiads)
+                        {
+                            if (a.Id == kId)
+                            {
+                                Console.WriteLine("Olympiad Selected!\n");
+                                Console.Write("Enter Name: "); string name = Console.ReadLine()!;
+                                Console.Write("Enter Year: "); int year = int.Parse(Console.ReadLine()!);
+                                Console.Write("Enter OlympiadId: "); int olympId = int.Parse(Console.ReadLine()!);
+                                Console.Write("Enter CountryId: "); int countryId = int.Parse(Console.ReadLine()!);
+                                context.Olympiads.Update(new Olympiad()
+                                {
+                                    Name = name,
+                                    Year = year,
+                                    OlympiadTypeId = olympId,
+                                    CountryId = countryId
+                                });
+                                Console.WriteLine("\nOlympiad Changed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nOlympiad with {kId} Id wasn't found!\n");
+                    }                
+                }
+                else if (key.Key == ConsoleKey.E)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Results)
+                        {
+                            if (a.Id == kId)
+                            {
+                                Console.WriteLine("Result Selected!\n");
+                                Console.Write("Enter OlympiadId: "); int olympId = int.Parse(Console.ReadLine()!);
+                                Console.Write("Enter MedalId: "); int medalId = int.Parse(Console.ReadLine()!);
+                                Console.Write("Enter AthleteId: "); int athleteId = int.Parse(Console.ReadLine()!);
+                                Console.Write("Enter SportId: "); int sportId = int.Parse(Console.ReadLine()!);
+                                context.Results.Update(new Result()
+                                {
+                                    OlympiadId = olympId,
+                                    MedalId = medalId,
+                                    AthleteId = athleteId,
+                                    SportId = sportId
+                                });
+                                Console.WriteLine("\nResult Changed!");
+                                exit = true;
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nResult with {kId} Id wasn't found!\n");
+                    }
+
+                }
+                else if (key.Key == ConsoleKey.F)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Sports)
+                        {
+                            if (a.Id == kId)
+                            {
+                                Console.WriteLine("Sport Selected!\n");
+                                Console.Write("Enter Name: "); string name = Console.ReadLine()!;
+                                Console.Write("Enter SportTypeId: "); int sportId = int.Parse(Console.ReadLine()!);
+                                context.Sports.Update(new Sport()
+                                {
+                                    Name = name,
+                                    SportTypeId = sportId
+                                });
+                                Console.WriteLine("\nSport Changed!");
+                                exit = true;
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nSport with {kId} Id wasn't found!\n");
+                    }
+                }
+                else { Console.WriteLine("Wrong Key!\n"); }
+            }
+        }
+        public void Delete() {
+            bool exit = false;
+            while (true)
+            {
+
+
+                Console.Write("\n[ A ] - delete Athlete\n[ B ] - delete City\n[ C ] - delete Country\n[ D ] - delete Olympiad\n[ E ] - delete Result\n[ F ] - delete Sport"); var key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.A)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Athletes)
+                        {
+                            if (a.Id == kId)
+                            {
+                                context.Athletes.Remove(a);
+                                Console.WriteLine("\nAthlete was Removed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nAthlete with {kId} Id wasn't found!\n");
+                    }
+                }
+                else if (key.Key == ConsoleKey.B)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Cities)
+                        {
+                            if (a.Id == kId)
+                            {
+                                context.Cities.Remove(a);
+                                Console.WriteLine("\nCity was Removed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nCity with {kId} Id wasn't found!\n");
+                    }
+
+                }
+
+                else if (key.Key == ConsoleKey.C)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Countries)
+                        {
+                            if (a.Id == kId)
+                            {
+                                context.Countries.Remove(a);
+                                Console.WriteLine("\nCountry was Removed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nCountry with {kId} Id wasn't found!\n");
+                    }
+                }
+                else if (key.Key == ConsoleKey.D)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Olympiads)
+                        {
+                            if (a.Id == kId)
+                            {
+                                context.Olympiads.Remove(a);
+                                Console.WriteLine("\nOlympiad was Removed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nOlympiad with {kId} Id wasn't found!\n");
+                    }
+                }
+                else if (key.Key == ConsoleKey.E)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Results)
+                        {
+                            if (a.Id == kId)
+                            {
+                                context.Results.Remove(a);
+                                Console.WriteLine("\nResult was Removed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nResult with {kId} Id wasn't found!\n");
+                    }
+
+                }
+                else if (key.Key == ConsoleKey.F)
+                {
+                    while (true)
+                    {
+                        Console.Write("\nEnter ID: "); int kId = int.Parse(Console.ReadLine()!);
+                        foreach (var a in context.Sports)
+                        {
+                            if (a.Id == kId)
+                            {
+                                context.Sports.Remove(a);
+                                Console.WriteLine("\nSport was Removed!");
+                                exit = true;
+
+                            }
+                        }
+                        if (exit == true) { context.SaveChanges(); return; }
+                        Console.WriteLine($"\nSport with {kId} Id wasn't found!\n");
+                    }
+                }
+                else { Console.WriteLine("Wrong Key!\n"); }
+            }
+        }
 
         private void ShowOlympInfo() {
             Console.WriteLine("All Olympiads:\n");
@@ -560,5 +950,42 @@ namespace FinalWorkDataLibrary.Entities
                 else { Console.WriteLine("Wrong Key!"); }
             }
         }
+
+        public void AsciiArt()
+        {
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@*@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@*-%@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@:.*@@@@#@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@*. -@@@%-#@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@-  :#@@+.+@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@#.  .=@%:.-#@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@-   .-#+. :*@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@#*-..             .=:  .=%@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@*:                    ..    :#@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@%-                              .+@@@@@@@@@");
+            Console.WriteLine("@@@@@@+::--:..                           -%@@@@@@@");
+            Console.WriteLine("@@@@@@@@%+.                               .*@@@@@@");
+            Console.WriteLine("@@@@@@#:                            ...     =@@@@@");
+            Console.WriteLine("@@@@%:                             .+%-.     -%@@@");
+            Console.WriteLine("@@@* .+@@+.   .%@@@@");
+            Console.WriteLine("@@=.                                .:*@#:  +@@@@@");
+            Console.WriteLine("@+.              :-.  +@@=            ......:%@@@@");
+            Console.WriteLine("%.             :#*:. *@=..                   .*@@@");
+            Console.WriteLine("=             =%%-. -%@@%%%-                  ...-");
+            Console.WriteLine(".            -%@#:  -@@@@#...:.                  +");
+            Console.WriteLine(".           .*@@%-  .%@@@@@@@@@@@@%*:           .@");
+            Console.WriteLine(".   .-      -#@@@=.  :%@@@@@@@@@@@@@@%+.        *@");
+            Console.WriteLine("= .-@%.     -#@@@@-.  ...:#@@@@@@@@@@@@%=.    .+@@");
+            Console.WriteLine("%.:@@@=     :*@%=:.. ...  .-%@%@@@@@@@@@@+. :#@@@@");
+            Console.WriteLine("@**@@@%:    .=@@@@@@@@@%:  .....-*@@@@@@@@*:#@@@@@");
+            Console.WriteLine("@@@@@@@#:    .*@@@@@@@@@+        .:+@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@%-    .+@@@@@*-.:=+*#%+.   .:*@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@+.   .=%@@@@%@@@@@@@@%=.   .-%@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@%+:   .=%@@@@@@@@@@@@@#:   :*@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@#=:. .:+#@@@@@@@@@@@%=-*@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@%*+-::.-@@@@@@@@@@@@@@@@@@@@@@@@@");
+        }
+
+
     }
 }
